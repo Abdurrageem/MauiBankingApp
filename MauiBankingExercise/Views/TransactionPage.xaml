@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiBankingExercise.Views.TransactionPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Account Transactions"
+             BackgroundColor="#F8F9FA">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="25">
+            <!-- Account Info Card -->
+            <Frame BackgroundColor="#2C3E50" 
+                   CornerRadius="15" 
+                   Padding="25"
+                   HasShadow="True">
+                <StackLayout Spacing="12">
+                    <Label Text="💰 Account Overview" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="White" />
+                    <Label Text="{Binding Account.AccountNumber, StringFormat='Account: {0}'}" 
+                           FontSize="16" 
+                           TextColor="#BDC3C7" />
+                    <Label Text="{Binding Account.AccountBalance, StringFormat='Available: {0:C}'}" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="#2ECC71" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Transaction Form -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="25"
+                   HasShadow="True"
+                   BorderColor="#E8E8E8">
+                <StackLayout Spacing="20">
+                    <StackLayout Orientation="Horizontal" 
+                                 Spacing="10">
+                        <Label Text="💸" 
+                               FontSize="24" 
+                               VerticalTextAlignment="Center" />
+                        <Label Text="New Transaction" 
+                               FontSize="20" 
+                               FontAttributes="Bold" 
+                               TextColor="#2C3E50"
+                               VerticalTextAlignment="Center" />
+                    </StackLayout>
+
+                    <!-- Transaction Type -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Transaction Type" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#34495E" />
+                        <Frame BackgroundColor="#ECF0F1" 
+                               CornerRadius="10" 
+                               Padding="0"
+                               BorderColor="Transparent">
+                            <Picker ItemsSource="{Binding TransactionTypes}" 
+                                    SelectedItem="{Binding SelectedTransactionType}"
+                                    FontSize="16"
+                                    TextColor="#2C3E50" />
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- Amount -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Amount" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#34495E" />
+                        <Frame BackgroundColor="#ECF0F1" 
+                               CornerRadius="10" 
+                               Padding="0"
+                               BorderColor="Transparent">
+                            <Entry Text="{Binding TransactionAmount}" 
+                                   Keyboard="Numeric" 
+                                   Placeholder="Enter amount ($)"
+                                   FontSize="16"
+                                   TextColor="#2C3E50"
+                                   PlaceholderColor="#95A5A6" />
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- Submit Button -->
+                    <Button Text="Process Transaction" 
+        Command="{Binding SubmitTransactionCommand}" 
+        BackgroundColor="#3498DB" 
+        TextColor="White"
+        FontSize="16"
+        FontAttributes="Bold"
+        CornerRadius="10"
+        HeightRequest="50"
+        Margin="0,10,0,0" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Transaction History -->
+            <StackLayout Spacing="15">
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="10">
+                    <Label Text="📋" 
+                           FontSize="24" 
+                           VerticalTextAlignment="Center" />
+                    <Label Text="Recent Transactions" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50"
+                           VerticalTextAlignment="Center" />
+                </StackLayout>
+
+                <CollectionView ItemsSource="{Binding Transactions}"
+                                ItemsLayout="VerticalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5,6">
+                                <Frame BackgroundColor="White" 
+                                       CornerRadius="12" 
+                                       Padding="20"
+                                       HasShadow="True"
+                                       BorderColor="#E8E8E8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Icon -->
+                                        <Frame Grid.Column="0" 
+                                               WidthRequest="40" 
+                                               HeightRequest="40" 
+                                               CornerRadius="20" 
+                                               Padding="0"
+                                               VerticalOptions="Center">
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" 
+                                                             Binding="{Binding TransactionType.Name}" 
+                                                             Value="Deposit">
+                                                    <Setter Property="BackgroundColor" Value="#2ECC71" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Frame" 
+                                                             Binding="{Binding TransactionType.Name}" 
+                                                             Value="Withdrawal">
+                                                    <Setter Property="BackgroundColor" Value="#E74C3C" />
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+                                            <Label FontSize="18" 
+                                                   TextColor="White"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Deposit">
+                                                        <Setter Property="Text" Value="↗" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Withdrawal">
+                                                        <Setter Property="Text" Value="↙" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Frame>
+
+                                        <!-- Transaction Details -->
+                                        <StackLayout Grid.Column="1" 
+                                                     Spacing="4" 
+                                                     VerticalOptions="Center"
+                                                     Margin="15,0,0,0">
+                                            <Label Text="{Binding TransactionType.Name}" 
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#2C3E50" />
+                                            <Label Text="{Binding TransactionDate, StringFormat='{0:MMM dd, yyyy hh:mm tt}'}" 
+                                                   FontSize="13" 
+                                                   TextColor="#7F8C8D" />
+                                            <Label Text="{Binding Description}" 
+                                                   FontSize="12" 
+                                                   TextColor="#95A5A6" />
+                                        </StackLayout>
+
+                                        <!-- Amount -->
+                                        <StackLayout Grid.Column="2" 
+                                                     VerticalOptions="Center"
+                                                     HorizontalOptions="End">
+                                            <Label Text="{Binding Amount, StringFormat='{0:C}'}" 
+                                                   FontSize="18" 
+                                                   FontAttributes="Bold"
+                                                   HorizontalTextAlignment="End">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Deposit">
+                                                        <Setter Property="TextColor" Value="#2ECC71" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" 
+                                                                 Binding="{Binding TransactionType.Name}" 
+                                                                 Value="Withdrawal">
+                                                        <Setter Property="TextColor" Value="#E74C3C" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsVisible="{Binding IsLoading}" 
+                               IsRunning="{Binding IsLoading}"
+                               Color="#3498DB"
+                               WidthRequest="40"
+                               HeightRequest="40" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
