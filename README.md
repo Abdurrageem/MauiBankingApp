@@ -1,11 +1,11 @@
 MAUI Banking App
- Overview
+📌 Overview
 
 This is a cross-platform Banking Application built using .NET MAUI. The app simulates a digital banking system where users can view account details, manage transactions, and explore banking operations in an intuitive mobile and desktop-friendly interface.
 
 This project was developed as part of my journey to learn modern cross-platform app development using .NET MAUI and C#.
 
- Features
+✅ Features
 
 User Interface:
 
@@ -33,7 +33,7 @@ Windows
 
 iOS (simulator)
 
- Architecture
+🏗 Architecture
 
 Pattern: MVVM-ready structure for separation of concerns
 
@@ -51,7 +51,7 @@ Languages: C#
 
 UI Framework: XAML with .NET MAUI controls
 
- Technologies Used
+🛠 Technologies Used
 
 .NET MAUI (.NET Multi-platform App UI)
 
@@ -61,7 +61,7 @@ XAML for UI design
 
 .NET 9.0 for cross-platform compatibility
 
- Installation & Running
+▶ Installation & Running
 
 Clone the repository:
 
@@ -82,3 +82,29 @@ Run the app:
 
 dotnet build
 dotnet maui run
+
+📸 Screenshots
+
+(Add screenshots here of your Main Page and navigation)
+
+🚀 Future Enhancements
+
+✅ Implement Authentication (Login & Register)
+
+✅ Add Transaction History per account
+
+✅ Integrate SQLite Database for persistent storage
+
+✅ Add Data Binding with ViewModels (MVVM)
+
+✅ Implement API Integration for real-time banking simulation
+
+💡 What I Learned
+
+Building cross-platform apps with .NET MAUI
+
+Designing responsive UI using XAML
+
+Understanding Shell Navigation
+
+Managing Models & Data Flow in a mobile app
